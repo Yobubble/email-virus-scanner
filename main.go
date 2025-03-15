@@ -17,7 +17,7 @@ func main() {
 	emailIDs := make(chan string, 10)
 
 	emailHelper := utils.NewEmailHelper(cfg)
-	websocketHelper := utils.NewWebsocketHelper(cfg, emailIDs)
+	websocketHelper := utils.NewWebsocketHelper(cfg, &emailIDs)
 
 	args := os.Args
 	switch args[1] {

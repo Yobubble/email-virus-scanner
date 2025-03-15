@@ -22,12 +22,12 @@ type websocketHelper struct {
 	cfg      *config.Cfg
 	done     chan struct{}
 	conn     *websocket.Conn
-	emailIDs chan string
+	emailIDs *chan string
 }
 
 func (w *websocketHelper) receiveMessages() {
 	defer func() {
-		close(w.emailIDs)
+		close(*w.emailIDs)
 		close(w.done)
 	}()
 	for {
@@ -44,7 +44,7 @@ func (w *websocketHelper) receiveMessages() {
 		}
 
 		if m.Type == "new" {
-			w.emailIDs <- m.Data.ID
+			*w.emailIDs <- m.Data.ID
 			log.Printf("recv: %s, ID: %s", m.Type, m.Data.ID)
 		} else {
 			log.Printf("recv: %s", m.Type)
@@ -85,7 +85,7 @@ func (w *websocketHelper) OpenWebsocket() error {
 	}
 }
 
-func NewWebsocketHelper(cfg *config.Cfg, emailIDs chan string) *websocketHelper {
+func NewWebsocketHelper(cfg *config.Cfg, emailIDs *chan string) *websocketHelper {
 	return &websocketHelper{
 		cfg:      cfg,
 		done:     make(chan struct{}),
