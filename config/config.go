@@ -7,7 +7,7 @@ import (
 )
 
 // Adjust cfg type as needed
-type cfg struct {
+type Cfg struct {
 	Mp mailpit
 }
 
@@ -16,7 +16,7 @@ type mailpit struct {
 	WebsocketUrl string
 }
 
-func InitConfig() *cfg {
+func InitConfig() *Cfg {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./config/")
@@ -26,7 +26,7 @@ func InitConfig() *cfg {
 		log.Panicf("Fatal error config file: %s \n", err)
 	}
 
-	return &cfg{
+	return &Cfg{
 		Mp: mailpit{
 			ApiUrl:       viper.GetString("mailpit.api_url"),
 			WebsocketUrl: viper.GetString("mailpit.websocket_url"),
