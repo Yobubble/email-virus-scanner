@@ -1,4 +1,4 @@
 # Add more config here
 mailpit:
   api_url: http://localhost:8025/api/v1
-  websocket_url: ws://localhost/api/events
+  websocket_url: ws://localhost:8025/api/events
