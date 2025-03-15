@@ -13,7 +13,6 @@ var (
 		Subject: "Basic Email",
 		Text:    "no attachment only email's body.",
 	}
-
 	AttachmentMail = Email{
 		Attachments: []attachment{
 			{
@@ -36,4 +35,5 @@ var (
 		Subject: "Email with Attachments",
 		Text:    "Email with attachments and body text.",
 	}
+	// More mock email possible
 )

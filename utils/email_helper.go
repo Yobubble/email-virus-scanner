@@ -62,6 +62,10 @@ func (e *emailHelper) SendEmail(mail Email) error {
 	return nil
 }
 
+func (e *emailHelper) GetEmailFromID(ID string) {
+	// TODO
+}
+
 func NewEmailHelper(cfg *config.Cfg) *emailHelper {
 	return &emailHelper{
 		cfg: cfg,

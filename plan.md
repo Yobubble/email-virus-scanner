@@ -1,7 +1,9 @@
 ### TODO
 * [ ] virus-scanner package (Boom)
 <!-- Ref: https://mailpit.axllent.org/docs/api-v1/websocket/ -->
-* [ ] setup websocket for email notification (BB)
+* [X] ~~*setup websocket for email notification (BB)*~~ [2025-03-15]
+* [ ] GetEmailFromID 
+
 
 ### Instruction (in progress)
 <!-- Ref: https://mailpit.axllent.org/docs/install/testing/ -->
