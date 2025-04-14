@@ -1,7 +1,7 @@
 package virusScanner
 
 import (
-	"Github.com/Yobubble/email-virus-scanner/pkg/email" // Assuming email usecases are accessible
+	"Github.com/Yobubble/email-virus-scanner/pkg/email"
 	"Github.com/Yobubble/email-virus-scanner/pkg/email/entities"
 	"Github.com/Yobubble/email-virus-scanner/utils"
 )
