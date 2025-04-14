@@ -7,11 +7,18 @@ import (
 )
 
 type emailController struct {
-	eu *emailUseCases
+	eu *EmailUseCases
 }
 
-func (e *emailController) SendMockEmail() {
+func (e *emailController) SendAttachmentEmail() {
 	err := e.eu.SendAMessage(EmailUtils.AttachmentMail)
+	if err != nil {
+		utils.Sugar.Panic(err)
+	}
+}
+
+func (e *emailController) SendVirusEmail() {
+	err := e.eu.SendAMessage(EmailUtils.VirusEmail)
 	if err != nil {
 		utils.Sugar.Panic(err)
 	}
@@ -20,20 +27,15 @@ func (e *emailController) SendMockEmail() {
 // goroutine
 func (e *emailController) ReceiveEmailIDAndConvertToEmail(emailIDs chan string, EmailBodies chan entities.GetMessageSummaryEntity) {
 	for emailID := range emailIDs {
-		utils.Sugar.Infof("Getting email from the id: %s ...", emailID)
-
 		emailBody, err := e.eu.GetMessageSummary(emailID)
 		if err != nil {
 			utils.Sugar.Panic(err)
 		}
-
-		utils.Sugar.Debugf("Email's body: %v", emailBody)
-
 		EmailBodies <- emailBody
 	}
 }
 
-func NewEmailController(eu *emailUseCases) *emailController {
+func NewEmailController(eu *EmailUseCases) *emailController {
 	return &emailController{
 		eu: eu,
 	}

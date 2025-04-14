@@ -39,9 +39,9 @@ func (m *mailpitWebsocketUseCases) receiveMessages(emailIDs chan string, errCh c
 
 		if m.Type == "new" {
 			emailIDs <- m.Data.ID
-			utils.Sugar.Infof("Receiving email's ID: %s", m.Data.ID)
-		} else {
-			utils.Sugar.Infof("Others: %s", msg)
+			// utils.Sugar.Infof("Receiving email's ID: %s", m.Data.ID)
+			// } else {
+			// utils.Sugar.Infof("Others: %s", msg)
 		}
 	}
 }
