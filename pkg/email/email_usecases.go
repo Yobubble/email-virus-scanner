@@ -69,3 +69,55 @@ func NewEmailUseCases(cfg *config.Cfg) *emailUseCases {
 		cfg: cfg,
 	}
 }
+
+// Add this method to emailUseCases struct in email_usecases.go
+
+func (e *emailUseCases) GetAttachmentContent(emailID string, partID string) ([]byte, error) {
+	// Construct the API URL for fetching the attachment part
+	// Example: http://localhost:8025/api/v1/message/{emailID}/part/{partID}
+	url := e.cfg.Mp.ApiUrl + "/message/" + emailID + "/part/" + partID
+	utils.Sugar.Debugf("Fetching attachment content from: %s", url)
+
+	res, err := http.Get(url)
+	if err != nil {
+		utils.Sugar.Errorf("Call API error for attachment content: %v", err)
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(res.Body) // Read body for error details
+		utils.Sugar.Errorf("Failed to fetch attachment content, status code: %d, response: %s", res.StatusCode, string(bodyBytes))
+		return nil, fmt.Errorf("failed to fetch attachment content, status: %s", res.Status)
+	}
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		utils.Sugar.Errorf("Read attachment body error: %v", err)
+		return nil, err
+	}
+
+	// IMPORTANT: Check Mailpit API documentation. The content might be base64 encoded
+	// within a JSON structure, or it might be raw binary data.
+	// If it's JSON with a base64 string, you'll need to unmarshal and decode.
+	// If it's raw binary, you can return `body` directly.
+	// Assuming raw binary for simplicity here:
+	utils.Sugar.Debugf("Successfully fetched attachment content, size: %d bytes", len(body))
+	return body, nil
+
+	// --- Example if content is base64 within JSON ---
+	// var attachmentData struct {
+	// 	Content string `json:"Content"` // Assuming a JSON field named 'Content' holds base64 data
+	// }
+	// if err := json.Unmarshal(body, &attachmentData); err != nil {
+	// 	utils.Sugar.Errorf("Failed to unmarshal attachment JSON: %v", err)
+	//	return nil, err
+	// }
+	// decodedContent, err := base64.StdEncoding.DecodeString(attachmentData.Content)
+	// if err != nil {
+	//	 utils.Sugar.Errorf("Failed to decode base64 attachment content: %v", err)
+	//	 return nil, err
+	// }
+	// return decodedContent, nil
+	// --- End Example ---
+}

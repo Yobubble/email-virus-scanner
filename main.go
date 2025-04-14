@@ -30,7 +30,8 @@ func main() {
 	mwc := mailpitWebsocket.NewMailpitWebsocketController(mwu)
 
 	vsu := virusScanner.NewVirusScannerUseCase(cfg)
-	vsc := virusScanner.NewVirusScannerController(vsu)
+	// Pass the email use cases instance to the virus scanner controller
+	vsc := virusScanner.NewVirusScannerController(vsu, eu) // Pass 'eu' here
 
 	args := os.Args
 	switch args[1] {
