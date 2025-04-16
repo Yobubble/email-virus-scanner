@@ -5,4 +5,9 @@
 3. Test sending email by running `go run main.go sendmail` (this command will send 2 types of email, one with plain attachments and another with the attachments containing virus signature)
 4. See the result in the terminal (WARN means virus detected)
 
+#### Big Picture
 ![image](./assets/images/overview.png)
+
+#### Detailed Overview
+![image](./assets/images/detailed_overview.png)
+
